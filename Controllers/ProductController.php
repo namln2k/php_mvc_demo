@@ -1,20 +1,31 @@
 <?php
 class ProductController extends BaseController {
+    private $productModel;
+
+    public function __construct() {
+        $this->loadModel('ProductModel');
+        $this->productModel = new ProductModel();
+    }
+
     public function index() {
-        $products = [
-            ['id' => 1, 'name' => 'Product 1', 'price' => '$100'],
-            ['id' => 2, 'name' => 'Product 2', 'price' => '$200'],
-            ['id' => 3, 'name' => 'Product 3', 'price' => '$300'],
-            ['id' => 4, 'name' => 'Product 4', 'price' => '$400'],
-            ['id' => 5, 'name' => 'Product 5', 'price' => '$500'],
-        ];
+        $order = ['column' => 'id', 'orderType' => 'desc'];
+
+        $products = $this->productModel->getAll(order: $order);
 
         $this->view('frontend.products.index', [
+            'pageTitle' => 'Trang danh sách sản phẩm',
             'products' => $products,
         ]);
     }
 
     public function about() {
         echo 'Home about';
+    }
+
+    public function show() {
+        $product = $this->productModel->getById(1);
+
+        echo '<pre>';
+        print_r($product);
     }
 }

@@ -1,9 +1,10 @@
 <?php
-
 require './Controllers/BaseController.php';
+require './Core/Database.php';
+require './Models/BaseModel.php';
 
 /**
- * A request URL looks like this: ../mvc_demo/index.php/?controller={controllerName}&action={controllerAction}
+ * A request URL looks like this: .../index.php/?controller={$controllerName}&action={$controllerAction}
  * - controllerName is the name of the controller class (If null, the default controller will be used)
  * - controllerAction is the action method that is called when the request is made (If null, the default action index() will be used)
  */
@@ -18,5 +19,5 @@ $controllerAction = $_REQUEST['action'] ?? 'index';
 require './Controllers/' . $controllerName . '.php';
 
 // Create an instance of the controller class and call the corresponding action method
-$controller = new $controllerName;
+$controller = new $controllerName();
 $controller->$controllerAction();
